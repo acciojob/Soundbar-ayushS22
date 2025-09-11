@@ -1,5 +1,4 @@
-//your JS code here. If required.
-// List your sound filenames here (must match exactly what's in the 'sounds' folder)
+// List your sound filenames here
 const sounds = ['applause.mp3', 'boo.mp3', 'gasp.mp3','tada.mp3','victory.mp3','wrong.mp3'];
 
 const buttonsContainer = document.getElementById('buttons');
@@ -9,17 +8,23 @@ let currentAudio = null;
 sounds.forEach(sound => {
   const button = document.createElement('button');
   button.classList.add('btn');
-  button.innerText = sound.replace('.mp3', ''); // Display name without extension
+  button.innerText = sound.replace('.mp3', '');
 
   button.addEventListener('click', () => {
     // Stop any currently playing audio
     if (currentAudio) {
       currentAudio.pause();
       currentAudio.currentTime = 0;
+      currentAudio.remove(); // Remove previous audio element from DOM
     }
 
-    // Create and play new audio
-    currentAudio = new Audio(`sounds/${sound}`);
+    // Create a new <audio> element
+    currentAudio = document.createElement('audio');
+    currentAudio.src = `sounds/${sound}`;
+    currentAudio.setAttribute('controls', ''); // Optional, for visibility
+    currentAudio.style.display = 'none'; // Hide it if you don't want it visible
+    document.body.appendChild(currentAudio);
+
     currentAudio.play();
   });
 
